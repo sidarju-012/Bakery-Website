@@ -34,20 +34,33 @@ export const CartProvider = ({ children }) => {
     // Use calculated price if provided, otherwise calculate based on weight
     const itemPrice = calculatedPrice !== null 
       ? calculatedPrice 
-      : (weight === '0.5' ? product.price * 0.5 : product.price)
+      : (weight === '0.5' || weight === '350ml' ? (weight === '350ml' ? product.price : product.price * 0.5) : product.price)
+    
+    const productType = product.type || 'cake'
+
+    // Stable IDs (do NOT include quantity)
+    const itemId =
+      productType === 'jar'
+        ? `${product.id}-jar`
+        : productType === 'piece'
+          ? `${product.id}-piece`
+          : `${product.id}-${baseVariant}-${sweetener}-${weight}`
     
     const cartItem = {
-      id: `${product.id}-${baseVariant}-${sweetener}-${weight}`, // Unique ID for variant combinations including weight
+      id: itemId,
       productId: product.id,
       name: product.name,
       image: product.image,
-      price: itemPrice, // Price per unit based on weight
-      basePrice: product.price, // Original 1kg price for reference
-      weight: weight, // '0.5' or '1'
+      price: itemPrice, // Price per unit
+      basePrice: product.price, // Original price for reference
+      weight: weight, // '0.5', '1', or '350ml'
       quantity: quantity,
-      baseVariant: baseVariant,
-      sweetener: sweetener,
-      description: product.description
+      baseVariant: (productType === 'jar' || productType === 'piece') ? 'N/A' : baseVariant,
+      sweetener: (productType === 'jar' || productType === 'piece') ? 'N/A' : sweetener,
+      description: product.description,
+      type: productType, // 'jar' | 'piece' | 'cake'
+      minOrderQuantity: product.minOrderQuantity,
+      fallbackImage: product.fallbackImage
     }
 
     setCartItems(prevItems => {

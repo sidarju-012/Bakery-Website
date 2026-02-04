@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { ordersAPI } from '../utils/api'
+import { onImgError } from '../utils/imageFallback'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_CONFIG } from '../config/emailjs'
 import './Checkout.css'
@@ -107,14 +108,25 @@ const Checkout = () => {
 
       // Save each cart item as a separate order
         for (const item of cartItems) {
+          // Validate jar cake minimum order
+          if (item.type === 'jar' && item.quantity < 2) {
+            alert(`Minimum order of 2 jars required for ${item.name}. Please update quantity.`)
+            setLoading(false)
+            return
+          }
+
           const orderData = {
             userId: user._id || user.id,
-            productName: `${item.name} (${item.weight === '0.5' ? 'Half kg' : '1 kg'})`,
+            productName: item.type === 'jar' 
+              ? `${item.name} (${item.weight || '350ml'} Jar)`
+              : `${item.name} (${item.weight === '0.5' ? 'Half kg' : '1 kg'})`,
             productImage: item.image,
             quantity: item.quantity,
-            weight: item.weight === '0.5' ? 'Half kg (0.5 kg)' : '1 kg',
-            baseVariant: item.baseVariant === 'wheat' ? 'Wheat Flour' : 'Maida',
-            sweetener: item.sweetener === 'sugar' ? 'Sugar' : 'Brown Sugar / Jaggery',
+            weight: item.type === 'jar' 
+              ? `${item.weight || '350ml'} Glass Jar`
+              : (item.weight === '0.5' ? 'Half kg (0.5 kg)' : '1 kg'),
+            baseVariant: item.type === 'jar' ? 'N/A' : (item.baseVariant === 'wheat' ? 'Wheat Flour' : 'Maida'),
+            sweetener: item.type === 'jar' ? 'N/A' : (item.sweetener === 'sugar' ? 'Sugar' : 'Brown Sugar / Jaggery'),
             totalPrice: Math.round(item.price * item.quantity),
             customerName: formData.name,
             customerMobile: formData.mobile,
@@ -142,14 +154,25 @@ const Checkout = () => {
       // Even if email fails, we'll still try to save orders to database
       try {
         for (const item of cartItems) {
+          // Validate jar cake minimum order
+          if (item.type === 'jar' && item.quantity < 2) {
+            alert(`Minimum order of 2 jars required for ${item.name}. Please update quantity.`)
+            setLoading(false)
+            return
+          }
+
           const orderData = {
             userId: user._id || user.id,
-            productName: `${item.name} (${item.weight === '0.5' ? 'Half kg' : '1 kg'})`,
+            productName: item.type === 'jar' 
+              ? `${item.name} (${item.weight || '350ml'} Jar)`
+              : `${item.name} (${item.weight === '0.5' ? 'Half kg' : '1 kg'})`,
             productImage: item.image,
             quantity: item.quantity,
-            weight: item.weight === '0.5' ? 'Half kg (0.5 kg)' : '1 kg',
-            baseVariant: item.baseVariant === 'wheat' ? 'Wheat Flour' : 'Maida',
-            sweetener: item.sweetener === 'sugar' ? 'Sugar' : 'Brown Sugar / Jaggery',
+            weight: item.type === 'jar' 
+              ? `${item.weight || '350ml'} Glass Jar`
+              : (item.weight === '0.5' ? 'Half kg (0.5 kg)' : '1 kg'),
+            baseVariant: item.type === 'jar' ? 'N/A' : (item.baseVariant === 'wheat' ? 'Wheat Flour' : 'Maida'),
+            sweetener: item.type === 'jar' ? 'N/A' : (item.sweetener === 'sugar' ? 'Sugar' : 'Brown Sugar / Jaggery'),
             totalPrice: Math.round(item.price * item.quantity),
             customerName: formData.name,
             customerMobile: formData.mobile,
@@ -216,16 +239,26 @@ const Checkout = () => {
               {cartItems.map((item) => (
                 <div key={item.id} className="summary-item">
                   <div className="summary-image">
-                    <img src={item.image} alt={item.name} />
+                    <img src={item.image} alt={item.name} onError={onImgError(item.fallbackImage)} />
                   </div>
                   <div className="summary-details">
                     <h3>{item.name}</h3>
                     <div className="summary-variants">
-                      <p><strong>Weight:</strong> {item.weight === '0.5' ? 'Half kg (0.5 kg)' : '1 kg'}</p>
-                      <p><strong>Base:</strong> {item.baseVariant === 'wheat' ? 'Wheat Flour' : 'Maida'}</p>
-                      <p><strong>Sweetener:</strong> {item.sweetener === 'sugar' ? 'Sugar' : 'Brown Sugar / Jaggery'}</p>
-                      <p><strong>Quantity:</strong> {item.quantity}</p>
-                      <p><strong>Price:</strong> ₹{Math.round(item.price)} × {item.quantity} = ₹{Math.round(item.price * item.quantity)}</p>
+                      {item.type === 'jar' ? (
+                        <>
+                          <p><strong>Size:</strong> {item.weight || '350ml'} Glass Jar</p>
+                          <p><strong>Quantity:</strong> {item.quantity} jar{item.quantity > 1 ? 's' : ''}</p>
+                          <p><strong>Price:</strong> ₹{Math.round(item.price)} × {item.quantity} = ₹{Math.round(item.price * item.quantity)}</p>
+                        </>
+                      ) : (
+                        <>
+                          <p><strong>Weight:</strong> {item.weight === '0.5' ? 'Half kg (0.5 kg)' : '1 kg'}</p>
+                          <p><strong>Base:</strong> {item.baseVariant === 'wheat' ? 'Wheat Flour' : 'Maida'}</p>
+                          <p><strong>Sweetener:</strong> {item.sweetener === 'sugar' ? 'Sugar' : 'Brown Sugar / Jaggery'}</p>
+                          <p><strong>Quantity:</strong> {item.quantity}</p>
+                          <p><strong>Price:</strong> ₹{Math.round(item.price)} × {item.quantity} = ₹{Math.round(item.price * item.quantity)}</p>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
+import { onImgError } from '../utils/imageFallback'
 import './Cart.css'
 
 const Cart = () => {
@@ -13,6 +14,8 @@ const Cart = () => {
     const item = cartItems.find(i => i.id === itemId)
     if (item) {
       const newQuantity = item.quantity + change
+      const minQty = item.minOrderQuantity || (item.type === 'jar' ? 2 : 1)
+      if (newQuantity < minQty) return
       updateQuantity(itemId, newQuantity)
     }
   }
@@ -61,24 +64,35 @@ const Cart = () => {
             {cartItems.map((item) => (
               <div key={item.id} className="cart-item">
                 <div className="cart-item-image">
-                  <img src={item.image} alt={item.name} />
+                  <img src={item.image} alt={item.name} onError={onImgError(item.fallbackImage)} />
                 </div>
                 
                 <div className="cart-item-details">
                   <h3>{item.name}</h3>
                   <p className="cart-item-description">{item.description}</p>
                   <div className="cart-item-variants">
-                    <span><strong>Weight:</strong> {item.weight === '0.5' ? 'Half kg (0.5 kg)' : '1 kg'}</span>
-                    <span><strong>Base:</strong> {item.baseVariant === 'wheat' ? 'Wheat Flour' : 'Maida'}</span>
-                    <span><strong>Sweetener:</strong> {item.sweetener === 'sugar' ? 'Sugar' : 'Brown Sugar / Jaggery'}</span>
+                    {item.type === 'jar' ? (
+                      <span><strong>Size:</strong> {item.weight || '350ml'} Glass Jar</span>
+                    ) : item.type === 'piece' ? (
+                      <span><strong>Unit:</strong> Per piece</span>
+                    ) : (
+                      <>
+                        <span><strong>Weight:</strong> {item.weight === '0.5' ? 'Half kg (0.5 kg)' : '1 kg'}</span>
+                        <span><strong>Base:</strong> {item.baseVariant === 'wheat' ? 'Wheat Flour' : 'Maida'}</span>
+                        <span><strong>Sweetener:</strong> {item.sweetener === 'sugar' ? 'Sugar' : 'Brown Sugar / Jaggery'}</span>
+                      </>
+                    )}
                   </div>
-                  <div className="cart-item-price">₹{Math.round(item.price)} per {item.weight === '0.5' ? 'half kg' : 'kg'}</div>
+                  <div className="cart-item-price">
+                    ₹{Math.round(item.price)} per {item.type === 'jar' ? 'jar' : item.type === 'piece' ? 'piece' : (item.weight === '0.5' ? 'half kg' : 'kg')}
+                  </div>
                 </div>
 
                 <div className="cart-item-quantity">
                   <button
                     className="quantity-btn"
                     onClick={() => handleQuantityChange(item.id, -1)}
+                    disabled={item.quantity <= (item.minOrderQuantity || (item.type === 'jar' ? 2 : 1))}
                   >
                     −
                   </button>

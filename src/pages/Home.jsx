@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { products } from '../data/products'
+import { jarCakes } from '../data/jarCakes'
+import { onImgError } from '../utils/imageFallback'
 import './Home.css'
 
 const Home = () => {
@@ -53,6 +55,7 @@ const Home = () => {
                     alt={product.name}
                     className="product-image"
                     loading="lazy"
+                    onError={onImgError(product.fallbackImage)}
                   />
                   <div className="product-overlay">
                     <Link
@@ -65,9 +68,7 @@ const Home = () => {
                 </div>
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
-                  <p className="product-description">{product.description}</p>
                   <div className="product-footer">
-                    <span className="product-price">₹{product.price}</span>
                     <Link
                       to={`/product/${product.id}`}
                       className="btn btn-secondary"
@@ -78,6 +79,62 @@ const Home = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Jar Cakes Section */}
+      <section id="jar-cakes" className="jar-cakes-section">
+        <div className="container">
+          <div className="jar-cakes-header">
+            <h2 className="section-title">Jar Cakes 🫙</h2>
+            <div className="jar-cakes-info">
+              <p className="jar-info-text">
+                Jar cakes are available in different flavours.
+                <br />
+                Available in <strong>350ml glass jars</strong>. Minimum order of <strong>2 jars</strong> are taken for delivery.
+              </p>
+            </div>
+          </div>
+
+          <div className="jar-cakes-grid">
+            {jarCakes.map((jarCake, index) => (
+              <div
+                key={jarCake.id}
+                className="jar-cake-card slide-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="jar-cake-image-wrapper">
+                  <img
+                    src={jarCake.image}
+                    alt={jarCake.name}
+                    className="jar-cake-image"
+                    loading="lazy"
+                    onError={onImgError()}
+                  />
+                  <div className="jar-badge">350ml</div>
+                  <div className="product-overlay">
+                    <Link to={`/product/${jarCake.id}`} className="btn btn-primary">
+                      View Details
+                    </Link>
+                  </div>
+                </div>
+                <div className="jar-cake-info">
+                  <h3 className="jar-cake-name">{jarCake.name}</h3>
+                  <div className="jar-cake-footer">
+                    <Link to={`/product/${jarCake.id}`} className="btn btn-secondary">
+                      View Details
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="jar-cakes-note">
+            <p>
+              <strong>Minimum order of 2 jars</strong> are taken for delivery.
+            </p>
           </div>
         </div>
       </section>

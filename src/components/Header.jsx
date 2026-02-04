@@ -45,10 +45,27 @@ const Header = () => {
                 if (window.location.pathname !== '/') {
                   e.preventDefault()
                   window.location.href = '/#products'
+                } else {
+                  e.preventDefault()
+                  document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })
                 }
               }}
             >
               Products
+            </a>
+            <a 
+              href="#jar-cakes" 
+              className="nav-link"
+              onClick={(e) => {
+                if (window.location.pathname !== '/') {
+                  e.preventDefault()
+                  window.location.href = '/#jar-cakes'
+                } else {
+                  document.getElementById('jar-cakes')?.scrollIntoView({ behavior: 'smooth' })
+                }
+              }}
+            >
+              Jar Cakes
             </a>
             <a 
               href="#why-choose" 
@@ -57,6 +74,9 @@ const Header = () => {
                 if (window.location.pathname !== '/') {
                   e.preventDefault()
                   window.location.href = '/#why-choose'
+                } else {
+                  e.preventDefault()
+                  document.getElementById('why-choose')?.scrollIntoView({ behavior: 'smooth' })
                 }
               }}
             >
@@ -69,6 +89,9 @@ const Header = () => {
                 if (window.location.pathname !== '/') {
                   e.preventDefault()
                   window.location.href = '/#faq'
+                } else {
+                  e.preventDefault()
+                  document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' })
                 }
               }}
             >

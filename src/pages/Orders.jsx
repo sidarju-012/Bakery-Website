@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { ordersAPI } from '../utils/api'
+import { onImgError } from '../utils/imageFallback'
 import './Orders.css'
 
 const Orders = () => {
@@ -109,7 +110,7 @@ const Orders = () => {
                     
                     <div className="order-content">
                       <div className="order-image">
-                        <img src={order.productImage} alt={order.productName} />
+                        <img src={order.productImage} alt={order.productName} onError={onImgError()} />
                       </div>
                       <div className="order-details">
                         <h3>{order.productName}</h3>
