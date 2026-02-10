@@ -7,7 +7,7 @@ export const products = [
     // Explicit pricing (does NOT need to be half of 1kg)
     prices: { '0.5': 920, '1': 1700 },
     price: 1700, // keep for backward compatibility (1kg)
-    image: "/images/products/belgian-coverture-chocolate-cake.jpg",
+    image: "/images/products/belgian-coverture-chocolate-cake.jpeg",
     fallbackImage: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=900&fit=crop"
   },
   {
@@ -16,7 +16,7 @@ export const products = [
     description: "Chocolate fudge cake is a rich, moist, and intensely chocolatey dessert often featuring layers of dense, dark chocolate cake covered in a velvety ganache or frosting. Unlike a standard chocolate sponge, a \"fudge\" cake is characterized by its high-fat content and dense texture.",
     prices: { '0.5': 880, '1': 1650 },
     price: 1650,
-    image: "/images/products/chocolate-fudge-coverture.jpg",
+    image: "/images/products/chocolate-fudge-coverture.jpeg",
     fallbackImage: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=900&fit=crop"
   },
   {
@@ -25,7 +25,7 @@ export const products = [
     description: "Red velvet cake has a unique, subtle flavor that's a mix of mild cocoa, vanilla, and a slight tanginess from buttermilk and vinegar, creating a taste profile between yellow and chocolate cake, often enhanced by sweet, tangy cream cheese frosting. It's known for its tender, velvety texture and vibrant red color.",
     prices: { '0.5': 850, '1': 1600 },
     price: 1600,
-    image: "/images/products/red-velvet-cake.jpg",
+    image: "/images/products/red-velvet-cake.jpeg",
     fallbackImage: "https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=900&fit=crop"
   },
   {
@@ -34,7 +34,7 @@ export const products = [
     description: "A butter cake with chocolate chips is a rich, tender, and moist cake, often featuring a cloud-like crumb.",
     prices: { '0.5': 750, '1': 1400 },
     price: 1400,
-    image: "/images/products/butter-cake-chocolate-chips.jpg",
+    image: "/images/products/butter-cake-chocolate-chips.jpeg",
     fallbackImage: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=900&fit=crop"
   },
   {
@@ -43,7 +43,7 @@ export const products = [
     description: "Pineapple upside-down cake is a classic, nostalgic American dessert known for its caramelized topping of pineapple rings and maraschino cherries, revealed by flipping the cake over after baking. The cake itself is typically a moist, dense butter or yellow cake that absorbs the sugary fruit juices.",
     prices: { '0.5': 750, '1': 1350 },
     price: 1350,
-    image: "/images/products/pineapple-upside-down-cake.jpg",
+    image: "/images/products/pineapple-upside-down-cake.jpeg",
     fallbackImage: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=900&fit=crop"
   },
   {
@@ -52,7 +52,7 @@ export const products = [
     description: "Mawa tea cakes are a rich, dense, and moist Indian ghee cake. They are characterized by the use of mawa (khoya or solidified milk solids), which gives them a caramel-like, decadent flavor, and are often scented with cardamom.",
     prices: { '0.5': 650, '1': 1100 },
     price: 1100,
-    image: "/images/products/mawa-tea-cake.jpg",
+    image: "/images/products/mawa-tea-cake.jpeg",
     fallbackImage: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=900&fit=crop"
   },
   {
