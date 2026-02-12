@@ -23,8 +23,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "server": "nodemon server/index.js",
-    "start": "node server/index.js",
+    "server": "set PORT=5001&& nodemon server/index.js",
+    "start": "set PORT=5001&& node server/index.js",
     "create-admin": "node server/scripts/createAdmin.js",
     "create-siddhant-admin": "node server/scripts/createSpecificAdmin.js"
   }

@@ -1,5 +1,7 @@
 // API configuration
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+// NOTE: If you already have another process using :5000, you can run the backend on :5001
+// and the frontend will use it by default here.
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api'
 
 // Check if server is running
 export const checkServerHealth = async () => {
@@ -57,6 +59,17 @@ const apiCall = async (endpoint, options = {}) => {
   }
 }
 
+const getCurrentUserId = () => {
+  try {
+    const raw = localStorage.getItem('user')
+    if (!raw) return null
+    const u = JSON.parse(raw)
+    return u?._id || u?.id || null
+  } catch {
+    return null
+  }
+}
+
 // Auth API
 export const authAPI = {
   register: async (userData) => {
@@ -104,12 +117,16 @@ export const ordersAPI = {
 
   // Admin APIs
   getAllOrders: async (date = null) => {
+    const userId = getCurrentUserId()
+    if (!userId) throw new Error('Admin session missing. Please login again.')
     const endpoint = date ? `/orders/admin/all?date=${date}` : '/orders/admin/all'
-    return apiCall(endpoint)
+    return apiCall(endpoint, { headers: { 'x-user-id': userId } })
   },
 
   getAdminStats: async (date) => {
-    return apiCall(`/orders/admin/stats?date=${date}`)
+    const userId = getCurrentUserId()
+    if (!userId) throw new Error('Admin session missing. Please login again.')
+    return apiCall(`/orders/admin/stats?date=${date}`, { headers: { 'x-user-id': userId } })
   }
 }
 

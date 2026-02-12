@@ -5,7 +5,7 @@ export const jarCakes = [
     name: "Nutella Kitkat Jar Cake",
     description: "Delicious Nutella cake with Kitkat pieces in a 350ml glass jar",
     price: 230,
-    image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=900&fit=crop",
+    image: "/images/jar-cakes/nutella-kitkat-jar-cake.jpeg",
     fallbackImage: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=900&fit=crop",
     type: "jar",
     size: "350ml"
@@ -15,7 +15,7 @@ export const jarCakes = [
     name: "Nutella Strawberry Jar Cake",
     description: "Creamy Nutella cake with fresh strawberries in a 350ml glass jar",
     price: 250,
-    image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=900&fit=crop",
+    image: "/images/jar-cakes/nutella-strawberry-jar-cake.jpeg",
     fallbackImage: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=900&fit=crop",
     type: "jar",
     size: "350ml"

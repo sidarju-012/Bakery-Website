@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { checkServerHealth } from '../utils/api'
+import { authAPI, checkServerHealth } from '../utils/api'
 import './Auth.css'
 
 const AdminLogin = () => {
@@ -12,7 +12,7 @@ const AdminLogin = () => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [serverStatus, setServerStatus] = useState(null)
-  const { login } = useAuth()
+  const { login, logout } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -40,12 +40,14 @@ const AdminLogin = () => {
 
     try {
       const user = await login(formData.email, formData.password)
-      
+
+      // Re-fetch the user from API to avoid stale/local cached flags
+      const verified = user?._id ? await authAPI.getUser(user._id) : user
+
       // Check if user is admin
-      if (!user.isAdmin) {
-        setError('Access denied. Admin privileges required.')
-        // Logout the user
-        localStorage.removeItem('user')
+      if (!verified?.isAdmin) {
+        setError(`Access denied. Admin privileges required for ${verified?.email || formData.email}.`)
+        logout()
         return
       }
 

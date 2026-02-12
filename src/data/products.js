@@ -59,7 +59,8 @@ export const products = [
     id: 7,
     name: "Tres Leches",
     description: "Traditional three-milk cake, moist and creamy",
-    price: 620,
+    prices: { '0.5': 1100, '1': 2000 },
+    price: 2000,
     image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&h=400&fit=crop"
   },
   {
