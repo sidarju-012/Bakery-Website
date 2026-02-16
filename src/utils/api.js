@@ -1,13 +1,18 @@
 // API configuration
 // In Vercel, configure: VITE_API_BASE_URL=https://bakery-website-backend.onrender.com
 // Locally, you can still override via VITE_API_BASE_URL or VITE_API_URL.
+const DEFAULT_PROD_BASE_URL = 'https://bakery-website-backend.onrender.com'
+const DEFAULT_DEV_BASE_URL = 'http://localhost:5001'
 const RAW_BASE =
   import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_API_URL ||  
-  'https://bakery-website-backend.onrender.com' 
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? DEFAULT_PROD_BASE_URL : DEFAULT_DEV_BASE_URL)
 
 const BASE_URL = String(RAW_BASE).replace(/\/+$/, '')
-const API_BASE_URL = `${BASE_URL}/api`
+const API_BASE_URL = `${BASE_URL}/api` 
+
+// Useful for UI messages / debugging
+export const API_ORIGIN = BASE_URL
 
 // Check if server is running
 export const checkServerHealth = async () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { checkServerHealth } from '../utils/api'
+import { API_ORIGIN, checkServerHealth } from '../utils/api'
 import './Auth.css'
 
 const Register = () => {
@@ -17,7 +17,7 @@ const Register = () => {
   const [serverStatus, setServerStatus] = useState(null)
   const { register, user } = useAuth()
   const navigate = useNavigate()
-
+ 
   useEffect(() => {
     // If user is already logged in, redirect to home
     if (user) {
@@ -35,7 +35,7 @@ const Register = () => {
     checkServerHealth().then(isHealthy => {
       setServerStatus(isHealthy)
       if (!isHealthy) {
-        setError('Backend server is not running. Please start it with: npm run server')
+        setError(`Backend is not reachable at ${API_ORIGIN}. Please check your Vercel env var VITE_API_BASE_URL.`)
       }
     })
   }, [user, navigate])
@@ -92,7 +92,7 @@ const Register = () => {
         <form onSubmit={handleSubmit} className="auth-form">
           {serverStatus === false && (
             <div className="error-message" style={{ background: '#fff3cd', color: '#856404', borderLeft: '4px solid #ffc107' }}>
-              ⚠️ Backend server is not running. Please start it in a separate terminal with: <strong>npm run server</strong>
+              ⚠️ Backend is not reachable at <strong>{API_ORIGIN}</strong>. If you deployed the backend on Render, set <strong>VITE_API_BASE_URL</strong> to <strong>https://bakery-website-backend.onrender.com</strong> in Vercel and redeploy.
             </div>
           )}
           {error && serverStatus !== false && <div className="error-message">{error}</div>}
