@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
@@ -6,6 +6,8 @@ import './Header.css'
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const lastScrollYRef = useRef(0)
   const { user, logout } = useAuth()
   const { getTotalItems, clearCart } = useCart()
   const navigate = useNavigate()
@@ -13,7 +15,30 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+      const y = window.scrollY || 0
+      setScrolled(y > 50)
+
+      // Mobile-only: hide header when scrolling down, show when scrolling up / at top
+      const isMobile = window.innerWidth <= 768
+      if (isMobile) {
+        const lastY = lastScrollYRef.current
+        const delta = y - lastY
+
+        if (y < 10) {
+          setHidden(false)
+        } else if (delta > 10 && y > 120) {
+          // scrolling down
+          setHidden(true)
+        } else if (delta < -10) {
+          // scrolling up
+          setHidden(false)
+        }
+
+        lastScrollYRef.current = y
+      } else {
+        setHidden(false)
+        lastScrollYRef.current = y
+      }
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -29,7 +54,7 @@ const Header = () => {
   }
 
   return (
-    <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+    <header className={`header ${scrolled ? 'scrolled' : ''} ${hidden ? 'hidden' : ''}`}>
       <div className="container">
         <div className="header-content">
           <Link to="/" className="logo">

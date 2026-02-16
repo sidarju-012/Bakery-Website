@@ -1,12 +1,18 @@
 // API configuration
-// NOTE: If you already have another process using :5000, you can run the backend on :5001
-// and the frontend will use it by default here.
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api'
+// In Vercel, configure: VITE_API_BASE_URL=https://bakery-website-backend.onrender.com
+// Locally, you can still override via VITE_API_BASE_URL or VITE_API_URL.
+const RAW_BASE =
+  import.meta.env.VITE_API_BASE_URL ||
+  import.meta.env.VITE_API_URL || 
+  'http://localhost:5001'
+
+const BASE_URL = String(RAW_BASE).replace(/\/+$/, '')
+const API_BASE_URL = `${BASE_URL}/api`
 
 // Check if server is running
 export const checkServerHealth = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL.replace('/api', '')}/api/health`)
+    const response = await fetch(`${BASE_URL}/api/health`)
     return response.ok
   } catch {
     return false
@@ -47,7 +53,9 @@ const apiCall = async (endpoint, options = {}) => {
     
     // Handle network errors
     if (error.name === 'TypeError' && error.message.includes('fetch')) {
-      throw new Error('Cannot connect to server. Please make sure the backend server is running on http://localhost:5000')
+      throw new Error(
+        `Cannot connect to server. Please make sure the backend is running and VITE_API_BASE_URL is set correctly (current: ${BASE_URL}).`
+      )
     }
     
     // Re-throw with better message
