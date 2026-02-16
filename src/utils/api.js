@@ -3,8 +3,8 @@
 // Locally, you can still override via VITE_API_BASE_URL or VITE_API_URL.
 const RAW_BASE =
   import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_API_URL || 
-  'http://localhost:5001'
+  import.meta.env.VITE_API_URL ||  
+  'https://bakery-website-backend.onrender.com' 
 
 const BASE_URL = String(RAW_BASE).replace(/\/+$/, '')
 const API_BASE_URL = `${BASE_URL}/api`
