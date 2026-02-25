@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://thehappyoven.com/</loc></url>
+  <url><loc>https://thehappyoven.com/cart</loc></url>
+  <url><loc>https://thehappyoven.com/checkout</loc></url>
+  <url><loc>https://thehappyoven.com/login</loc></url>
+  <url><loc>https://thehappyoven.com/register</loc></url>
+  <url><loc>https://thehappyoven.com/orders</loc></url>
+  <!-- Key product pages (add more /product/ID as needed) -->
+  <url><loc>https://thehappyoven.com/product/1</loc></url>
+  <url><loc>https://thehappyoven.com/product/2</loc></url>
+  <url><loc>https://thehappyoven.com/product/3</loc></url>
+  <url><loc>https://thehappyoven.com/product/101</loc></url>
+</urlset>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../context/AuthContext'
 import { API_ORIGIN, authAPI, checkServerHealth } from '../utils/api'
 import './Auth.css'
@@ -61,6 +62,10 @@ const AdminLogin = () => {
 
   return (
     <div className="auth-page">
+      <Helmet>
+        <title>Admin Login | The Happy Oven</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div className="auth-container">
         <div className="auth-header">
           <h1>🔐</h1>

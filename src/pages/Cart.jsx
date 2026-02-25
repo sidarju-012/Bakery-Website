@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
 import { onImgError } from '../utils/imageFallback'
@@ -39,6 +40,11 @@ const Cart = () => {
   if (cartItems.length === 0) {
     return (
       <div className="cart-page">
+        <Helmet>
+          <title>Cart | The Happy Oven</title>
+          <meta name="description" content="Your shopping cart at The Happy Oven. Add cakes and goodies, then checkout." />
+          <link rel="canonical" href="https://thehappyoven.com/cart" />
+        </Helmet>
         <div className="container">
           <h1 className="cart-title">Shopping Cart</h1>
           <div className="empty-cart">
@@ -56,6 +62,11 @@ const Cart = () => {
 
   return (
     <div className="cart-page">
+      <Helmet>
+        <title>Cart | The Happy Oven</title>
+        <meta name="description" content="Your shopping cart at The Happy Oven. Add cakes and goodies, then checkout." />
+        <link rel="canonical" href="https://thehappyoven.com/cart" />
+      </Helmet>
       <div className="container">
         <h1 className="cart-title">Shopping Cart</h1>
         

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { ordersAPI } from '../utils/api'
 import { onImgError } from '../utils/imageFallback'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_CONFIG } from '../config/emailjs'
 import './Checkout.css'
 
 const Checkout = () => {
@@ -76,125 +75,48 @@ const Checkout = () => {
 
     setLoading(true)
 
-    const totalPrice = getTotalPrice()
-    const productNames = cartItems.map(item => `${item.name} (${item.quantity}x)`).join(', ')
-
-    // Prepare email template parameters
-    const templateParams = {
-      to_email: 'ds7394986767@gmail.com',
-      customer_name: formData.name,
-      phone_number: formData.mobile,
-      address: formData.address,
-      product_name: productNames,
-      quantity: cartItems.reduce((sum, item) => sum + item.quantity, 0),
-      base_variant: cartItems.map(item => `${item.name}: ${item.baseVariant === 'wheat' ? 'Wheat Flour' : 'Maida'}`).join(', '),
-      sweetener: cartItems.map(item => `${item.name}: ${item.sweetener === 'sugar' ? 'Sugar' : 'Brown Sugar / Jaggery'}`).join(', '),
-      total_price: `₹${totalPrice}`,
-      message: `New order received from ${formData.name}`
-    }
-
     try {
-      // Send email using EmailJS
-      if (EMAILJS_CONFIG.SERVICE_ID !== 'YOUR_SERVICE_ID') {
-        await emailjs.send(
-          EMAILJS_CONFIG.SERVICE_ID,
-          EMAILJS_CONFIG.TEMPLATE_ID,
-          templateParams,
-          EMAILJS_CONFIG.PUBLIC_KEY
-        )
-      } else {
-        console.warn('EmailJS not configured. Please set up your EmailJS credentials in src/config/emailjs.js')
-      }
-
       // Save each cart item as a separate order
-        for (const item of cartItems) {
-          // Validate jar cake minimum order
-          if (item.type === 'jar' && item.quantity < 2) {
-            alert(`Minimum order of 2 jars required for ${item.name}. Please update quantity.`)
-            setLoading(false)
-            return
-          }
-
-          const orderData = {
-            userId: user._id || user.id,
-            productName: item.type === 'jar' 
-              ? `${item.name} (${item.weight || '350ml'} Jar)`
-              : `${item.name} (${item.weight === '0.5' ? 'Half kg' : '1 kg'})`,
-            productImage: item.image,
-            quantity: item.quantity,
-            weight: item.type === 'jar' 
-              ? `${item.weight || '350ml'} Glass Jar`
-              : (item.weight === '0.5' ? 'Half kg (0.5 kg)' : '1 kg'),
-            baseVariant: item.type === 'jar' ? 'N/A' : (item.baseVariant === 'wheat' ? 'Wheat Flour' : 'Maida'),
-            sweetener: item.type === 'jar' ? 'N/A' : (item.sweetener === 'sugar' ? 'Sugar' : 'Brown Sugar / Jaggery'),
-            totalPrice: Math.round(item.price * item.quantity),
-            customerName: formData.name,
-            customerMobile: formData.mobile,
-            address: formData.address,
-            deliveryDate: formData.deliveryDate
-          }
-
-          await ordersAPI.createOrder(orderData)
+      for (const item of cartItems) {
+        // Validate jar cake minimum order
+        if (item.type === 'jar' && item.quantity < 2) {
+          alert(`Minimum order of 2 jars required for ${item.name}. Please update quantity.`)
+          setLoading(false)
+          return
         }
 
-      // Clear cart after successful order
+        const orderData = {
+          userId: user._id || user.id,
+          productName: item.type === 'jar'
+            ? `${item.name} (${item.weight || '350ml'} Jar)`
+            : `${item.name} (${item.weight === '0.5' ? 'Half kg' : '1 kg'})`,
+          productImage: item.image,
+          quantity: item.quantity,
+          weight: item.type === 'jar'
+            ? `${item.weight || '350ml'} Glass Jar`
+            : (item.weight === '0.5' ? 'Half kg (0.5 kg)' : '1 kg'),
+          baseVariant: item.type === 'jar' ? 'N/A' : (item.baseVariant === 'wheat' ? 'Wheat Flour' : 'Maida'),
+          sweetener: item.type === 'jar' ? 'N/A' : (item.sweetener === 'sugar' ? 'Sugar' : 'Brown Sugar / Jaggery'),
+          totalPrice: Math.round(item.price * item.quantity),
+          customerName: formData.name,
+          customerMobile: formData.mobile,
+          address: formData.address,
+          deliveryDate: formData.deliveryDate
+        }
+
+        await ordersAPI.createOrder(orderData)
+      }
+
+      // Clear cart after successful order save
       clearCart()
       setOrderPlaced(true)
-      
-      // Redirect to orders page after 3 seconds
       setTimeout(() => {
         navigate('/orders')
       }, 3000)
     } catch (error) {
       console.error('Order placement error:', error)
-      
-      // Check if it's an API error with a message
-      const errorMessage = error.message || 'Failed to place order. Please try again.'
-      
-      // Even if email fails, we'll still try to save orders to database
-      try {
-        for (const item of cartItems) {
-          // Validate jar cake minimum order
-          if (item.type === 'jar' && item.quantity < 2) {
-            alert(`Minimum order of 2 jars required for ${item.name}. Please update quantity.`)
-            setLoading(false)
-            return
-          }
-
-          const orderData = {
-            userId: user._id || user.id,
-            productName: item.type === 'jar' 
-              ? `${item.name} (${item.weight || '350ml'} Jar)`
-              : `${item.name} (${item.weight === '0.5' ? 'Half kg' : '1 kg'})`,
-            productImage: item.image,
-            quantity: item.quantity,
-            weight: item.type === 'jar' 
-              ? `${item.weight || '350ml'} Glass Jar`
-              : (item.weight === '0.5' ? 'Half kg (0.5 kg)' : '1 kg'),
-            baseVariant: item.type === 'jar' ? 'N/A' : (item.baseVariant === 'wheat' ? 'Wheat Flour' : 'Maida'),
-            sweetener: item.type === 'jar' ? 'N/A' : (item.sweetener === 'sugar' ? 'Sugar' : 'Brown Sugar / Jaggery'),
-            totalPrice: Math.round(item.price * item.quantity),
-            customerName: formData.name,
-            customerMobile: formData.mobile,
-            address: formData.address,
-            deliveryDate: formData.deliveryDate
-          }
-
-          await ordersAPI.createOrder(orderData)
-        }
-        
-        // Clear cart after successful order save
-        clearCart()
-        setOrderPlaced(true)
-        setTimeout(() => {
-          navigate('/orders')
-        }, 3000)
-      } catch (dbError) {
-        console.error('Database error:', dbError)
-        const dbErrorMessage = dbError.message || 'Failed to place order. Please check your connection and try again.'
-        alert(dbErrorMessage)
-        // Don't throw - just show error and let user try again
-      }
+      const errorMessage = error.message || 'Failed to place order. Please check your connection and try again.'
+      alert(errorMessage)
     } finally {
       setLoading(false)
     }
@@ -228,6 +150,11 @@ const Checkout = () => {
 
   return (
     <div className="checkout">
+      <Helmet>
+        <title>Checkout | The Happy Oven</title>
+        <meta name="description" content="Complete your cake order at The Happy Oven. Enter delivery details and place order." />
+        <link rel="canonical" href="https://thehappyoven.com/checkout" />
+      </Helmet>
       <div className="container">
         <h1 className="checkout-title">Checkout</h1>
         

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../context/AuthContext'
 import { ordersAPI } from '../utils/api'
 import { onImgError } from '../utils/imageFallback'
@@ -57,6 +58,10 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
+      <Helmet>
+        <title>Admin Dashboard | The Happy Oven</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div className="admin-header">
         <div className="container">
           <div className="admin-header-content">

@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { products } from '../data/products'
 import { jarCakes } from '../data/jarCakes'
 import { useCart } from '../context/CartContext'
 import { onImgError } from '../utils/imageFallback'
 import './ProductDetails.css'
+
+const SITE_URL = 'https://thehappyoven.com'
 
 const ProductDetails = () => {
   const { id } = useParams()
@@ -74,14 +77,20 @@ const ProductDetails = () => {
     navigate('/cart')
   }
 
+  const productDescription = (product.description || '').slice(0, 155)
   return (
     <div className="product-details">
+      <Helmet>
+        <title>{product.name} | The Happy Oven</title>
+        <meta name="description" content={productDescription ? `${productDescription}… Order from The Happy Oven, Bengaluru.` : `${product.name} — order from The Happy Oven, Bengaluru.`} />
+        <link rel="canonical" href={`${SITE_URL}/product/${id}`} />
+      </Helmet>
       <div className="container">
         <div className="product-details-content">
           <div className="product-image-section">
             <img
               src={product.image}
-              alt={product.name}
+              alt={`${product.name} - The Happy Oven`}
               className="product-large-image"
               onError={onImgError(product.fallbackImage)}
             />

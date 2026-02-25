@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../context/AuthContext'
 import { API_ORIGIN, checkServerHealth } from '../utils/api'
 import './Auth.css'
@@ -62,6 +63,11 @@ const Login = () => {
 
   return (
     <div className="auth-page">
+      <Helmet>
+        <title>Login | The Happy Oven</title>
+        <meta name="description" content="Log in to your The Happy Oven account to place orders and track deliveries." />
+        <link rel="canonical" href="https://thehappyoven.com/login" />
+      </Helmet>
       <div className="auth-container">
         <div className="auth-header">
           <h1>🍰</h1>

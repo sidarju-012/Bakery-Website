@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../context/AuthContext'
 import { ordersAPI } from '../utils/api'
 import { onImgError } from '../utils/imageFallback'
@@ -74,6 +75,11 @@ const Orders = () => {
 
   return (
     <div className="orders-page">
+      <Helmet>
+        <title>My Orders | The Happy Oven</title>
+        <meta name="description" content="View your order history at The Happy Oven." />
+        <link rel="canonical" href="https://thehappyoven.com/orders" />
+      </Helmet>
       <div className="container">
         <h1 className="orders-title">My Orders</h1>
         
