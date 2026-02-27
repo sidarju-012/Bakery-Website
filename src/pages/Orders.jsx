@@ -78,7 +78,7 @@ const Orders = () => {
       <Helmet>
         <title>My Orders | The Happy Oven</title>
         <meta name="description" content="View your order history at The Happy Oven." />
-        <link rel="canonical" href="https://thehappyoven.com/orders" />
+        <link rel="canonical" href="https://thehappyoven.net/orders" />
       </Helmet>
       <div className="container">
         <h1 className="orders-title">My Orders</h1>

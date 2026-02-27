@@ -66,7 +66,7 @@ const Login = () => {
       <Helmet>
         <title>Login | The Happy Oven</title>
         <meta name="description" content="Log in to your The Happy Oven account to place orders and track deliveries." />
-        <link rel="canonical" href="https://thehappyoven.com/login" />
+        <link rel="canonical" href="https://thehappyoven.net/login" />
       </Helmet>
       <div className="auth-container">
         <div className="auth-header">

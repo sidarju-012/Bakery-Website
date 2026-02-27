@@ -153,7 +153,7 @@ const Checkout = () => {
       <Helmet>
         <title>Checkout | The Happy Oven</title>
         <meta name="description" content="Complete your cake order at The Happy Oven. Enter delivery details and place order." />
-        <link rel="canonical" href="https://thehappyoven.com/checkout" />
+        <link rel="canonical" href="https://thehappyoven.net/checkout" />
       </Helmet>
       <div className="container">
         <h1 className="checkout-title">Checkout</h1>

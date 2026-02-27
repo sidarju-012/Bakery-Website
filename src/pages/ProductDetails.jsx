@@ -7,7 +7,7 @@ import { useCart } from '../context/CartContext'
 import { onImgError } from '../utils/imageFallback'
 import './ProductDetails.css'
 
-const SITE_URL = 'https://thehappyoven.com'
+const SITE_URL = 'https://thehappyoven.net'
 
 const ProductDetails = () => {
   const { id } = useParams()
@@ -82,7 +82,7 @@ const ProductDetails = () => {
     <div className="product-details">
       <Helmet>
         <title>{product.name} | The Happy Oven</title>
-        <meta name="description" content={productDescription ? `${productDescription}… Order from The Happy Oven, Bengaluru.` : `${product.name} — order from The Happy Oven, Bengaluru.`} />
+        <meta name="description" content={productDescription ? `${productDescription}… Order from The Happy Oven, Chennai.` : `${product.name} — order from The Happy Oven, Chennai.`} />
         <link rel="canonical" href={`${SITE_URL}/product/${id}`} />
       </Helmet>
       <div className="container">

@@ -6,14 +6,14 @@ import { jarCakes } from '../data/jarCakes'
 import { onImgError } from '../utils/imageFallback'
 import './Home.css'
 
-const SITE_URL = 'https://thehappyoven.com'
+const SITE_URL = 'https://thehappyoven.net'
 
 const Home = () => {
   return (
     <div className="home">
       <Helmet>
-        <title>The Happy Oven | Fresh Cakes &amp; Bakery in Bengaluru</title>
-        <meta name="description" content="The Happy Oven — freshly baked cakes, jar cakes, and pastries in Bengaluru. Eggless options, whole wheat, same-day delivery. Order online." />
+        <title>The Happy Oven | Fresh Cakes &amp; Bakery in Chennai</title>
+        <meta name="description" content="The Happy Oven — freshly baked cakes, eggless and healthy options. Same-day cake delivery in Chennai." />
         <link rel="canonical" href={`${SITE_URL}/`} />
       </Helmet>
       {/* Hero Section */}
@@ -27,10 +27,10 @@ const Home = () => {
           <div className="hero-content fade-in">
             <h1 className="hero-title">
               The Happy Oven — Freshly prepared Cakes<br />
-              Delivered in Bengaluru
+              Delivered in Chennai
             </h1>
             <p className="hero-subtitle">
-              The Happy Oven bakes fresh daily: eggless options, no refined oil, whole wheat. Order online in Bengaluru.
+              The Happy Oven bakes fresh daily: eggless options, no refined oil, whole wheat. Order online in Chennai.
             </p>
             <a 
               href="#products" 

@@ -43,7 +43,7 @@ const Cart = () => {
         <Helmet>
           <title>Cart | The Happy Oven</title>
           <meta name="description" content="Your shopping cart at The Happy Oven. Add cakes and goodies, then checkout." />
-          <link rel="canonical" href="https://thehappyoven.com/cart" />
+          <link rel="canonical" href="https://thehappyoven.net/cart" />
         </Helmet>
         <div className="container">
           <h1 className="cart-title">Shopping Cart</h1>
@@ -65,7 +65,7 @@ const Cart = () => {
       <Helmet>
         <title>Cart | The Happy Oven</title>
         <meta name="description" content="Your shopping cart at The Happy Oven. Add cakes and goodies, then checkout." />
-        <link rel="canonical" href="https://thehappyoven.com/cart" />
+        <link rel="canonical" href="https://thehappyoven.net/cart" />
       </Helmet>
       <div className="container">
         <h1 className="cart-title">Shopping Cart</h1>
