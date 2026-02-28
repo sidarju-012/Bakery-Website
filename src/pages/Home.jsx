@@ -12,8 +12,8 @@ const Home = () => {
   return (
     <div className="home">
       <Helmet>
-        <title>The Happy Oven | Fresh Cakes &amp; Bakery in Chennai</title>
-        <meta name="description" content="The Happy Oven — freshly baked cakes, eggless and healthy options. Same-day cake delivery in Chennai." />
+        <title>The Happy Oven | Fresh Cakes &amp; Bakery in Bengaluru</title>
+        <meta name="description" content="The Happy Oven — freshly baked cakes, eggless and healthy options. Same-day cake delivery in Bengaluru." />
         <link rel="canonical" href={`${SITE_URL}/`} />
       </Helmet>
       {/* Hero Section */}
@@ -27,10 +27,10 @@ const Home = () => {
           <div className="hero-content fade-in">
             <h1 className="hero-title">
               The Happy Oven — Freshly prepared Cakes<br />
-              Delivered in Chennai
+              Delivered in Bengaluru
             </h1>
             <p className="hero-subtitle">
-              The Happy Oven bakes fresh daily: eggless options, no refined oil, whole wheat. Order online in Chennai.
+              The Happy Oven bakes fresh daily: eggless options, no refined oil, whole wheat. Order online in Bengaluru.
             </p>
             <a 
               href="#products" 

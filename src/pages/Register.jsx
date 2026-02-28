@@ -85,7 +85,7 @@ const Register = () => {
     <div className="auth-page">
       <Helmet>
         <title>Register | The Happy Oven</title>
-        <meta name="description" content="Create your The Happy Oven account to order cakes and track deliveries in Chennai." />
+        <meta name="description" content="Create your The Happy Oven account to order cakes and track deliveries in Bengaluru." />
         <link rel="canonical" href="https://thehappyoven.net/register" />
       </Helmet>
       <div className="auth-container">
